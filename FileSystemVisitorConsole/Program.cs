@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Immutable;
+using System.Linq;
 
 namespace FileSystemVisitorConsole
 {
@@ -10,7 +12,6 @@ namespace FileSystemVisitorConsole
             string answer = Console.ReadLine();
             FileSystemVisitor fileSystemVisitor;
             string enteredPath;
-            string enteredFileName;
 
             switch (answer)
             {
@@ -24,16 +25,23 @@ namespace FileSystemVisitorConsole
                 case "file":
                     Console.WriteLine("Enter the path to the folder: ");
                     enteredPath = Console.ReadLine();
-                    Console.WriteLine("Enter the file you would like to find in the specified folder: ");
-                    enteredFileName = Console.ReadLine();
 
-                    fileSystemVisitor = new FileSystemVisitor(enteredPath, enteredFileName);
-                    fileSystemVisitor.ShowFileInPredifinedFolder();
+                    fileSystemVisitor = new FileSystemVisitor(enteredPath, FilterFiles);
+                    fileSystemVisitor.ShowFilesInPredefinedFolder();
                     break;
                 default:
                     Console.WriteLine("Sorry, your answer can't be processed. Please, try again.");
                     break;
             }
         }
+
+        private static VisitorSystemInfoList FilterFiles(VisitorSystemInfoList list)
+        {
+            Console.WriteLine("Please, enter search pattern: ");
+            string pattern = Console.ReadLine();
+
+            return list.Where(x => x.Name.Contains(pattern)).ToVisitorSystemInfoList();
+        }
+
     }
 }
