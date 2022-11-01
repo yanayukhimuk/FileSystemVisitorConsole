@@ -20,6 +20,10 @@ namespace FileSystemVisitorConsole
                     enteredPath = Console.ReadLine();
 
                     fileSystemVisitor = new FileSystemVisitor(enteredPath);
+                    fileSystemVisitor.StageNotificationEvent += (s, args) =>
+                    {
+                        Console.WriteLine("Showing folder content is initialized...");
+                    };
                     fileSystemVisitor.ShowFolderContent();
                     break;
                 case "file":
@@ -27,7 +31,12 @@ namespace FileSystemVisitorConsole
                     enteredPath = Console.ReadLine();
 
                     fileSystemVisitor = new FileSystemVisitor(enteredPath, FilterFiles);
+                    fileSystemVisitor.StageNotificationEvent += (s, args) =>
+                    {
+                        Console.WriteLine("Searching for file is initialized...");
+                    };
                     fileSystemVisitor.ShowFilesInPredefinedFolder();
+                    fileSystemVisitor.ShowFoldersInPredefinedFolder();
                     break;
                 default:
                     Console.WriteLine("Sorry, your answer can't be processed. Please, try again.");
