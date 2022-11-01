@@ -2,16 +2,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace FileSystemVisitorConsole
 {
     internal class VisitorSystemInfoList : IEnumerable<FileSystemInfo>
     {
-        private FileSystemInfo[] _fileSystemInfos;
+        private List<FileSystemInfo> _fileSystemInfos;
+        public VisitorSystemInfoList()
+        {
+            _fileSystemInfos = new List<FileSystemInfo>();
+        }
         public VisitorSystemInfoList(FileSystemInfo[] fileSystemInfos)
         {
-            _fileSystemInfos = fileSystemInfos;
+            _fileSystemInfos = fileSystemInfos.ToList();
         }
 
         public IEnumerator<FileSystemInfo> GetEnumerator()
@@ -20,6 +25,11 @@ namespace FileSystemVisitorConsole
             {
                 yield return info;
             }
+        }
+
+        public void AddRange(FileSystemInfo[] fileSystemInfos)
+        {
+            _fileSystemInfos.AddRange(fileSystemInfos);
         }
 
         IEnumerator IEnumerable.GetEnumerator()

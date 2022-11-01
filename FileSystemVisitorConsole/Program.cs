@@ -8,7 +8,7 @@ namespace FileSystemVisitorConsole
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Would you like to  see the files in the folder or find a specific file? (folder / file): ");
+            Console.WriteLine("Would you like to  see the files in the folder or find a specific file? (folder / file / file2): ");
             string answer = Console.ReadLine();
             FileSystemVisitor fileSystemVisitor;
             string enteredPath;
@@ -37,6 +37,17 @@ namespace FileSystemVisitorConsole
                     };
                     fileSystemVisitor.ShowFilesInPredefinedFolder();
                     fileSystemVisitor.ShowFoldersInPredefinedFolder();
+                    break;
+                case "file2":
+                    Console.WriteLine("Enter the path to the folder: ");
+                    enteredPath = Console.ReadLine();
+
+                    fileSystemVisitor = new FileSystemVisitor(enteredPath, FilterFiles);
+                    fileSystemVisitor.StageNotificationEvent += (s, args) =>
+                    {
+                        Console.WriteLine("Searching for file is initialized...");
+                    };
+                    fileSystemVisitor.SearchFileInFolderTree();
                     break;
                 default:
                     Console.WriteLine("Sorry, your answer can't be processed. Please, try again.");
