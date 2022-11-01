@@ -20,7 +20,7 @@ namespace FileSystemVisitorConsole
                     enteredPath = Console.ReadLine();
 
                     fileSystemVisitor = new FileSystemVisitor(enteredPath);
-                    fileSystemVisitor.ShowFilesInPredefinedFolder();
+                    fileSystemVisitor.ShowFolderContent();
                     break;
                 case "file":
                     Console.WriteLine("Enter the path to the folder: ");
