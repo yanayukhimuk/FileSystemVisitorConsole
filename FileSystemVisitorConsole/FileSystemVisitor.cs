@@ -124,11 +124,11 @@ namespace FileSystemVisitorConsole
                         {
                             Console.WriteLine(string.Concat("File found: ", file.FullName));
                         }
-                        // event done
+                        FoundFileEvent.Invoke(this, EventArgs.Empty);
                     }
                     else
                     {
-                        //event not found
+                        FailedFindEvent.Invoke(this, EventArgs.Empty);
                     }
                 }
                 else
@@ -155,7 +155,7 @@ namespace FileSystemVisitorConsole
                 {
                     GetFileFromDirectory(directory, files);
                 }
-            }
+             }
 
             catch (UnauthorizedAccessException e)
             {

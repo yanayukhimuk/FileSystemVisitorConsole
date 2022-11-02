@@ -8,7 +8,7 @@ namespace FileSystemVisitorConsole
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Would you like to  see the files in the folder or find a specific file? (folder / file / file2): ");
+            Console.WriteLine("Chose the option: 1. Show folder content. 2. Find file. (folder / file) : ");
             string answer = Console.ReadLine();
             FileSystemVisitor fileSystemVisitor;
             string enteredPath;
@@ -35,17 +35,13 @@ namespace FileSystemVisitorConsole
                     {
                         Console.WriteLine("Searching for file is initialized...");
                     };
-                    fileSystemVisitor.ShowFilesInPredefinedFolder();
-                    fileSystemVisitor.ShowFoldersInPredefinedFolder();
-                    break;
-                case "file2":
-                    Console.WriteLine("Enter the path to the folder: ");
-                    enteredPath = Console.ReadLine();
-
-                    fileSystemVisitor = new FileSystemVisitor(enteredPath, FilterFiles);
-                    fileSystemVisitor.StageNotificationEvent += (s, args) =>
+                    fileSystemVisitor.FoundFileEvent += (s, args) =>
                     {
-                        Console.WriteLine("Searching for file is initialized...");
+                        Console.WriteLine("The file was found.");
+                    };
+                    fileSystemVisitor.FailedFindEvent += (s, args) =>
+                    {
+                        Console.WriteLine("The file wasn't found.");
                     };
                     fileSystemVisitor.SearchFileInFolderTree();
                     break;
