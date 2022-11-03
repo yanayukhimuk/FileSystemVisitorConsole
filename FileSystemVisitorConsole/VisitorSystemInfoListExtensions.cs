@@ -7,7 +7,7 @@ using System.Text;
 
 namespace FileSystemVisitorConsole
 {
-    internal static class VisitorSystemInfoListExtensions
+    public static class VisitorSystemInfoListExtensions
     {
         internal static VisitorSystemInfoList ToVisitorSystemInfoList(this IEnumerable<FileSystemInfo> inputList)
         {

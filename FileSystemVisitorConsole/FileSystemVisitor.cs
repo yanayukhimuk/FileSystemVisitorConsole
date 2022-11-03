@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
 namespace FileSystemVisitorConsole
 {
-    internal class FileSystemVisitor
+    public class FileSystemVisitor
     {
         private readonly Func<VisitorSystemInfoList, VisitorSystemInfoList> _filterAction;
         private readonly string _filePath;
@@ -12,16 +13,16 @@ namespace FileSystemVisitorConsole
         public EventHandler FoundFileEvent;
         public EventHandler FailedFindEvent;
 
-        public FileSystemVisitor(string path) => _filePath = path;
-
         public FileSystemVisitor(string path, Func<VisitorSystemInfoList, VisitorSystemInfoList> filterAction = null)
         {
             _filePath = path;
             _filterAction = filterAction;
         }
-        public void ShowFolderContent()
+
+        public List <string> ReturnFolderContent()
         {
-            StageNotificationEvent.Invoke(this, EventArgs.Empty);
+            List <string> content = new List<string> ();    
+            //StageNotificationEvent.Invoke(this, EventArgs.Empty);
             try
             {
                 DirectoryInfo fileList = new DirectoryInfo(_filePath);
@@ -30,12 +31,12 @@ namespace FileSystemVisitorConsole
 
                 foreach (FileInfo file in files)
                 {
-                    Console.WriteLine(string.Concat("File: ", file.Name));
+                    content.Add(file.FullName);
                 }
 
                 foreach (DirectoryInfo dir in dirs)
                 {
-                    Console.WriteLine(string.Concat("Directory: ", dir.Name));
+                    content.Add(dir.FullName);
                 }
             }
             catch (DirectoryNotFoundException e)
@@ -50,10 +51,21 @@ namespace FileSystemVisitorConsole
             {
                 Console.WriteLine(e.Message);
             }
+
+            return content; 
         }
 
-        public void SearchFileInFolderTree()
+        public void DisplayContent(List<string> content)
         {
+            foreach (string file in content)
+            {
+                Console.WriteLine(file);
+            }
+        }
+
+        public List<string> SearchFileInFolderTree()
+        {
+            List<string> content = new List<string>();
             StageNotificationEvent.Invoke(this, EventArgs.Empty);
             try
             {
@@ -68,7 +80,7 @@ namespace FileSystemVisitorConsole
                     {
                         foreach (FileInfo file in files)
                         {
-                            Console.WriteLine(string.Concat("File found: ", file.FullName));
+                            content.Add(file.FullName);
                         }
                         FoundFileEvent.Invoke(this, EventArgs.Empty);
                     }
@@ -95,6 +107,8 @@ namespace FileSystemVisitorConsole
             {
                 Console.WriteLine(e.Message);
             }
+
+            return content;
         }
 
         private void GetFileFromDirectory(DirectoryInfo directoryInfo, VisitorSystemInfoList files)

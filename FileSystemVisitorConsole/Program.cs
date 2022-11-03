@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Xml.Schema;
 
 namespace FileSystemVisitorConsole
 {
@@ -24,7 +25,8 @@ namespace FileSystemVisitorConsole
                     {
                         Console.WriteLine("Showing folder content is initialized...");
                     };
-                    fileSystemVisitor.ShowFolderContent();
+                    var content = fileSystemVisitor.ReturnFolderContent();
+                    fileSystemVisitor.DisplayContent(content);
                     break;
                 case "file":
                     Console.WriteLine("Enter the path to the folder: ");
@@ -43,7 +45,8 @@ namespace FileSystemVisitorConsole
                     {
                         Console.WriteLine("The file wasn't found.");
                     };
-                    fileSystemVisitor.SearchFileInFolderTree();
+                    var content2 = fileSystemVisitor.SearchFileInFolderTree();
+                    fileSystemVisitor.DisplayContent(content2);
                     break;
                 default:
                     Console.WriteLine("Sorry, your answer can't be processed. Please, try again.");
