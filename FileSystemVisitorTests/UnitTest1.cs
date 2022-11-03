@@ -4,11 +4,14 @@ using System;
 namespace FileSystemVisitorTests
 {
     [TestClass]
-    public class UnitTest1
+    public class FileSystemVisitorTests
     {
-        [TestMethod]
+        readonly string pathToFolder = "C:\\";
+
+        [TestMethod()]
         public void TestMethod1()
         {
+            var fileSystemVisitor = new FileSystemVisitor(pathToFolder);
 
         }
     }
